@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+        <script type="text/javascript" src="../scripts/teacherCanvas.js" defer></script>
+        <link rel="stylesheet" href="../styles/teacherCanvas.css">
+        <link rel="stylesheet" href="../styles/normalize.css">
+        <script type="text/javascript" src="../scripts/sharedCanvas.js" defer></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.0.279/build/pdf.min.js"></script>
+        <link rel="icon" type="image/x-icon" href="/icons/notepipe.svg">
+        
+        <title>NotePipe-Teacher</title>
+    </head>
+    <body>
+        <div class="header">
+          
+          <div class="header-left">
+            <a class="home-link" href="../index.html">
+              <img class="new-page-icon" src="../icons/home-icon.svg" alt="Home">
+            </a>
+          </div>
+          
+          <div class="header-middle">
+            <div class="page-navigation-bar">
+              <div class="page-navigation-button">
+                <button id="previousPage">
+                    <img class="navigation-icon" src="../icons/left-arrow.svg" alt="Previous Page">
+                </button>
+                <div class="button-tooltip">
+                  Previous Page
+                </div>
+              </div>
+              <div class="current-page-counter"> 
+                <p id="currentPageNumber">1/1</p>
+              </div>
+              <div class="page-navigation-button"> 
+                <button id="nextPage">
+                  <img class="navigation-icon" src="../icons/right-arrow.svg" alt="Next Page">
+                </button>
+                <div class="button-tooltip">
+                  Next Page
+                </div>
+              </div>
+            </div>
+            <div class="new-page-button">
+              <button id="newpage">
+                <img class="new-page-icon" id="n" src="../icons/new-page-icon.svg" alt="New Page">
+              </button>
+              <div class="button-tooltip">
+                  Create New Page
+              </div>
+            </div>
+            <div class="upload-button">
+                <button id = "uploadFile">
+                  <label for="upload">
+                    <img class="upload-icon" src="../icons/upload-icon.svg" alt="Upload File">
+                  </label>
+                </button>
+              <input type="file" id="upload" onchange="interpretFile()">
+              <div class="button-tooltip">
+                Upload
+              </div>
+            </div>
+            <div class="header-right-dropdown">
+              <button class="users-button" onclick="triggerUserList()">
+                <img class="users-icon" src="../icons/users-icon.svg" alt="Users">
+              </button>
+              <div class="header-right-dropdown-content">
+                <p onclick="triggerUserList()">Show User List</p>
+                <p>
+                  <input type="button" name="name" value="Update Name" onclick="showEditName()" />
+                  <input class="hide" type="text" id="nameTextBox">
+                  <button class="hide" id="updateName" onclick="hideEditName()">Submit</button>
+                </p>
+              </div>
+            </div>
+            <div>
+              <input id="showUserList" type="checkbox" />
+              <div class="panel-wrap">
+                <div class="panel">
+                  <div class="list" id="userList">
+                    <div id="Users"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+
+          
+          <div class="header-right">
+
+            <div class="header-right-dropdown">
+              <button class="save-button" onclick="zipFolderbutton()">
+                <img class="save-icon" src="../icons/save-icon.svg" alt="Save">
+              </button>
+              <div class="header-right-dropdown-content">
+                <p id="zipFolder">Download All</p>
+                <p id="download">Download Current Page</p>
+              </div>
+            </div>
+
+            <div class="header-right-dropdown">
+              <button class="link-button" onclick="copyJoinKey()">
+                <img class="link-icon" src="../icons/link-icon.svg" alt="Link">
+              </button>
+              <div class="header-right-dropdown-content">
+                <p onclick="copyJoinKey()">Copy Room Link</p>
+                <p onclick="openQR()">Show QR Code</p>
+              </div>
+            </div>
+            <!--
+              <div class="header-right-dropdown">
+              <button class="users-button">
+                <img class="users-icon" src="../icons/users-icon.svg" alt="Users">
+              </button>
+            </div>
+            -->
+            
+               <!-- <div class="header-right-dropdown">
+              <button class="users-button" type="button">
+                <img class="users-icon" src="../icons/users-icon.svg" alt="Users">
+              </button>
+              <div class="panel-wrap">
+                <div class="panel">
+                  <div class="list">
+                    <div id="Users"></div>
+                  </div>
+              </div>
+            </div>
+          </div> -->
+          
+           
+
+          <!-- Prototype
+            <button class="clicker" type="button" >
+            put button image here
+          </button>
+          <div class="panel-wrap">
+            <div class="panel">
+              <div class="list">
+                <div id="Users"></div>
+              </div>
+          </div>
+          -->
+        </div>        
+
+            <!-- 
+            <p id="currentPageNumber">Current page is 0</p>
+            <div style="margin-right: 10px"> 
+                <button id="newpage">NewPage</button>
+                <button id="reset">Reset</button>
+                <p id="updateStatus">Content Not Sent</p>     
+                <a id="studentLinkAnchor"><p id="studentLink"></p></a>
+            </div> -->
+
+        <!-- Removing dropdown menu for now, uncomment to restore
+     
+        <div class="dropdown">
+            <button onclick="dropdown()" class="dropbtn">Dropdown</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="#home">Home</a>
+              <a href="#about">About</a>
+              <a href="#contact">Contact</a>
+            </div>
+        </div>
+          
+          <script>
+          /* When the user clicks on the button, 
+          toggle between hiding and showing the dropdown content */
+          function dropdown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+          }
+          
+          // Close the dropdown if the user clicks outside of it
+          window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+              var dropdowns = document.getElementsByClassName("dropdown-content");
+              var i;
+              for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                  openDropdown.classList.remove('show');
+                }
+              }
+            }
+          }
+          </script>
+        <br>
+        -->
+        </div> 
+
+        <div id="slider-div" class="slider-menu">
+          <div id="container" class="slider-container">
+            <input onchange='changeWidth(this.value)' type="range" min="1" max="40" value="5">
+            <p style="color:white;">Pen Thickness</p>
+            <input onchange='changeEraserWidth(this.value)' type="range" min="1" max="40" value="5">
+            <p style="color:white;">Eraser Thickness</p>
+          </div>
+        </div>
+
+        <!--
+        <div id="eraser-div" class="eraser-menu">
+          <div id="container" class="eraser-container">
+            <input onchange='changeEraserWidth(this.value)' type="range" min="1" max="40" value="5">
+            <p style="color:white;">Eraser Thickness</p>
+          </div>
+        </div>
+        -->
+
+        <div id="color-div" class="color-menu">
+          <div id="container" class="color-container">
+            <canvas id="colorsCanvas" class="canvas_colors" width="150" height="100" style="left: 0; z-index: 1; position: absolute;"></canvas>
+            <canvas id="colorsIndicatorCanvas" class="canvas_colors" width="150" height="100" style="left: 0; z-index: 2; position: absolute;"></canvas>
+
+          </div>
+        </div>
+
+        <div class="left-sidebar">
+            <!-- Need to add effects when selected/active -->
+            <div id="container" class="drawing-tools-sidebar">
+              <div class="draw-tool">
+                <button class="color-button" onclick="showSlider()" id="slider">
+                  <img src="/icons/line-weight.svg" alt="Line Weight">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="color-button" onclick="changeColor('black')" id="black">
+                  <img src="../icons/black-icon.svg" alt="Black">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="color-button" onclick="changeColor('blue')" id="blue=">
+                  <img src="../icons/blue-icon.svg" alt="Blue">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="color-button" onclick="changeColor('red')" id="red">
+                  <img src="../icons/red-icon.svg" alt="Red">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="color-button" onclick="changeColor('green')" id="green">
+                  <img src="../icons/green-icon.svg" alt="Green">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="color-button" onclick="showColors()" id="colors">
+                  <img src="/icons/color-circle.svg" alt="Color Picker">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="highlight-button" id="highligher">
+                  <img src="../icons/highlighter-icon.svg" onclick="startHighlight()" alt="highligher">
+                </button>
+              </div>
+              <div class="draw-tool">
+                <button class="eraser-button" onclick="eraser()" id="eraser">
+                  <img src="../icons/eraser-icon.svg" alt="Eraser">
+                </button>
+              </div>
+              <div class="draw-tool mobile-only">
+                <button class="disable-touch" id="gestureToggle" onclick="disableTouch()" id="eraser">
+                  <img src = "../icons/pan-hand.svg" alt = "Enable Gestures" width="30px">
+                </button>
+              </div>
+            </div>
+        </div>
+      
+      <div id="qr-code-overlay" class="overlay">
+        <a href="javascript:void(0)" class="close-button" onclick="closeQR()">&times;</a>
+        <div class="qrcode-container" id="qrcode"></div>
+      </div>
+      
+      <div class="top-border"></div>
+      <div class="left-border"></div>
+
+      
+
+      <!-- Place experimental features/buttons here -->
+      <div class="feature-testing">
+
+        <!--TODO: FIX THIS RESTORING THESE BUTTONS FOR NOW-->
+      
+        <div class="TMPFIXFIXTHIS">
+          <!-- temporary solution using checkbox. Implement using button instead -->
+         <!-- <div>
+            <input id="showUserList" type="checkbox" />
+            <label for="showUserList">Userlist</label>
+            <div class="panel-wrap">
+              <div class="panel">
+                <div class="list" id="userList">
+                  <div id="Users"></div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+
+          <!-- <button id="newpage">NewPage</button> -->
+          <!-- <button id="reset">Reset</button> -->
+          <!-- <button id="zipFolder">ZipFolder</button>
+          <button id="download">Download</button> -->
+          <!--Update Name-->
+          <!--
+          <input type="button" name="name" value="Update Name" onclick="showEditName()" />
+          <input class="hide" type="text" id="nameTextBox">
+          <button class="hide" id="updateName" onclick="hideEditName()">Submit</button>
+          -->
+          <!--End Update Name-->
+          
+        </div>
+
+        <!-- below script is for file upload -->
+        <script>
+          function interpretFile(){
+            var file = document.getElementById("upload").files[0];
+            if ((file.type == "image/png") || (file.type == "image/jpeg")) {
+              console.log("user has uploaded an image (png/jpeg) file");
+              uploadImageFile(); // function in teacherCanvas.js
+            }
+            else if (file.type == "application/pdf") {
+              console.log("user has uploaded a pdf file");
+              readAndUploadPDF(file);
+            }
+            else {
+              console.log("uploaded file type not supported");
+            }
+          }
+          function readAndUploadPDF(file) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.0.279/build/pdf.worker.min.js";
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+              pdfjsLib.getDocument(e.target.result).promise.then((pdf_file) => {
+                //console.log("number of pages: " + pdf_file.numPages);
+                uploadPDF(pdf_file); // send pdf to function in teacherCanvas.js to be displayed on canvas
+              })
+            }
+          }
+        </script>
+
+        <div class="status-check">
+          <p id="updateStatus">Content Not Sent</p>
+        </div>
+
+        <a id="studentLinkAnchor">
+          <p id="studentLink"></p>
+        </a>
+        <!-- <div id="qrcode"></div> -->
+      </div>
+      <!-- For user list-->
+      <!--
+        <div class="list">
+        <div id="Users"></div>
+      </div>
+      --> 
+      <div style="position: relative;">
+        <canvas id="drawingCanvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <canvas id="highlightCanvas" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+      </div>
+    </body>
+
+</html>

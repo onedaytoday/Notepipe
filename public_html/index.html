@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <title>Handwriting-to-text Homepage</title>
+
+    <link href="./styles/homepage.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost">
+    <link rel="icon" type="image/x-icon" href="/icons/notepipe.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <canvas style="position: absolute;" height="937" width="962"></canvas>
+    <script src="./scripts/homeCanvas.js"></script>
+    <div><img src="icons/notepipe.svg" style="
+    width: 10vw;
+    margin: auto;
+    margin-top: 2vh;
+    display: inherit;
+">
+        <h1 class="notepipe-title" style="
+    text-align: center;
+    display: inherit;
+">NotePipe
+        </h1>
+    </div>
+    <div class="description">
+        <p>Introducing the first live whiteboard for educators and the visually-impaired!</p>
+        <p>Handwriting is translated to readable text and audio, so that education is accessible to all.</p>
+    </div>
+    <div class="features-list">
+        <ul>
+            <li>Host classes for the visually-impaired</li>
+            <li>Search through handwritten text</li>
+            <li>Save lecture notes</li>
+            <li>Hear lecture notes out loud</li>
+        </ul>
+    </div>
+    <div class="click-description">
+        <p>Click "Teacher" or enter Student Key below to start:</p>
+    </div>
+    <div class="button-container">
+        <button class="teacher" onclick="teacherButton()">Teacher</button>
+        <form action="#" autocomplete="off" style="
+    right: 0vw;
+    float: right;
+">
+            <label>Enter Student Key:
+                <input type="text" name="student-key" onchange="{console.log(event.target)}">
+            </label>
+            <button class="studentSB" onclick="studentButton()">Enter Room</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>

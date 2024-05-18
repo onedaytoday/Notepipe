@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Jost', Arial, Helvetica, sans-serif;
+    letter-spacing: 3px;
+    font-weight: 500;
+    cursor: url(../resources/pencil-cursor-icon.png), auto;
+    user-select: none;
+    position: relative;
+ }
+ .notepipe-title, .description, .click-description, .features-list {
+    margin-left: auto;
+    margin-right: auto;
+ }
+ .notepipe-title {
+    color: hsl(130, 100%, 31%);
+    font-size: 36px;
+    font-weight: 700;
+    display: flex;
+    justify-content: start;
+    margin-bottom: 60px;
+    width: 730px;
+ }
+ .description {
+    width: 730px;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+    border-width: 1px;
+ }
+ .description p {
+    margin-bottom: 30px;
+ }
+ .button-container {
+    width: 730px; 
+    margin-left: auto;
+    margin-right: auto; 
+ }
+ul {
+  list-style-position: inside;
+  font-size: 18px;
+}
+li {
+  list-style-position: inside;
+  margin-bottom: 20px;
+}
+.features-list {
+ padding-left: 30px;
+ width: 700px;
+ margin-bottom: 60px;
+}
+ .teacher, input[type="submit"] {
+   font-weight: 700;
+   height: 36px;
+   width: 120px;
+   font-size: 16px;
+   cursor: pointer;
+   transition: background-color 0.15s;
+   letter-spacing: 2px;
+   border-style: none; 
+   border-radius: 16px;
+ }
+ .teacher {
+  margin-right: 20px;
+ }
+ .click-description {
+   margin-bottom: 12px;
+   font-size: 18px;
+   width: 730px;
+ } 
+ .teacher {
+   background-color: hsl(211, 98%, 49%);
+   color: hsl(0, 0%, 100%); 
+ }
+ .teacher:hover {
+   background-color: hsl(211, 98%, 55%);
+ }
+ .teacher:active {
+   background-color: hsl(211, 98%, 65%);
+ }
+ .studentSB {
+  font-weight: 700;
+  height: 36px;
+  width: 120px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  letter-spacing: 2px;
+  border-style: none; 
+  border-radius: 16px;
+  background-color: hsl(130, 97%, 39%);
+  color: white;
+}
+.studentSB:hover {
+  background-color: hsl(130, 97%, 44%);
+}
+.studentSB:active {
+  background-color: hsl(130, 97%, 46%);
+}
+
+input[type="text"]{
+  font-size: 16px;
+  height: 32px;
+  border-radius: 16px;
+  border-width: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+form {
+  display: inline;
+}
